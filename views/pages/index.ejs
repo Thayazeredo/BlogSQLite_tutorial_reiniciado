@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+  <%- include("head"); %>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,6 +17,8 @@
     <!-- <script src="/static/scripts/scripts.js" defer></script>
   </head> -->
   <body>
+    <%# Este é um comentario em EJS %>
+
     <!-- <header>
       <a href="" class="Logo">LOGO</a>
       <nav>
@@ -28,12 +31,11 @@
     </header> -->
 
    <%- include("menu"); %>
-   <%- include("footer"); %>
-
-    <section class="container">
-      <div class="image_container">
-        <h1>Crie sua conta</h1>
-        <p>
+   
+   <section class="container">
+     <div class="image_container">
+       <h1>Crie sua conta</h1>
+       <p>
           Compartilhe suas aventuras e <br />
           descubra novos lugares ao redor do mundo!
         </p>
@@ -82,5 +84,7 @@
         </div>
       </form>
     </section>
+    <
+    <%- include("footer"); %>
   </body>
 </html>

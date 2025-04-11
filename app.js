@@ -42,42 +42,47 @@ app.get("/", (req, res) => {
   console.log("GET /index");
   // res.send(home);
   // res.redirect("/cadastro"); // Redireciona para a ROTA cadastro
-  res.render("index");
+  res.render("page/index");
 });
 
 app.get("/usuarios", (req, res) => {
   const query = "SELECT * FROM users";
   db.all(query, (err, row) => {
     console.log(`GET /usuarios ${JSON.stringify(row)}`);
-    res.send("Lista de usuarios.");
+    res.send("page/usuarios");
   });
-});
-
-app.get("/sobre", (req, res) => {
-  console.log("GET /sobre");
-  res.render("sobre");
-});
-
-app.get("/login", (req, res) => {
-  console.log("GET /login");
-  // Rota raiz  do meu servidor
-  res.render("login");
-});
-
-app.post("/login", (req, res) => {
-  console.log("POST /login");
-  res.render("Login ainda não implementado.");
 });
 
 app.get("/cadastro", (req, res) => {
   console.log("GET /cadastro");
-  res.render("cadastro");
+  res.render("page/cadastro");
 });
 
 app.post("/cadastro", (req, res) => {
   !req.body
     ? console.log(JSON.stringify(req.body))
     : console.log(`Body vazio: ${req.body}`);
+
+  app.get("/sobre", (req, res) => {
+    console.log("GET /sobre");
+    res.render("pages/sobre");
+  });
+
+  app.get("/login", (req, res) => {
+    console.log("GET /login");
+    // Rota raiz  do meu servidor
+    res.render("page/login");
+  });
+
+  app.post("/login", (req, res) => {
+    console.log("POST /login");
+    res.render("page/login");
+  });
+
+  app.get("/dashboard", (req, res) => {
+    console.log("GET/ dashboard");
+    res.render("page/dashboard");
+  });
 
   const { username, password, email, celular, cpf, rg } = req.body;
   // Colocar aqui as validações e inclusão no banco de dados do cadastro do usuario

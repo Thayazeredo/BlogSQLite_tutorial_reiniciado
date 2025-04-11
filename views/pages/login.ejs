@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+  <%- include("head"); %>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,9 +13,8 @@
       class="stylesheet"
     />
 
-    <!-- Link JS externo -->
-    <!-- <script src="/static/scripts/scripts.js" defer></script>
-  </head> -->
+    <script src="/static/scripts/scripts.js" defer></script>
+  </head>
   <body>
     <!-- <header>
       <a href="" class="Logo">LOGO</a>
@@ -27,8 +27,7 @@
       </nav>
     </header> -->
 
-   <%- include("menu"); %>
-   <%- include("footer"); %>
+    <%- include("menu"); %> <%- include("footer"); %>
 
     <section class="container">
       <div class="image_container">
