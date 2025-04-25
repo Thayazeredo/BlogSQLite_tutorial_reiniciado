@@ -40,22 +40,22 @@ o segundo, são os dados que serão enviados ao cliente (RESULT - `res`)*/
 
 app.get("/", (req, res) => {
   console.log("GET /index");
-  // res.send(home);
+  //res.send(index);
   // res.redirect("/cadastro"); // Redireciona para a ROTA cadastro
-  res.render("page/index");
+  res.render("pages/cadastro", { titulo: "Título da página" });
 });
 
 app.get("/usuarios", (req, res) => {
   const query = "SELECT * FROM users";
   db.all(query, (err, row) => {
     console.log(`GET /usuarios ${JSON.stringify(row)}`);
-    res.send("page/usuarios");
+    res.send("pages/usuarios");
   });
 });
 
 app.get("/cadastro", (req, res) => {
   console.log("GET /cadastro");
-  res.render("page/cadastro");
+  res.render("pages/cadastro");
 });
 
 app.post("/cadastro", (req, res) => {
