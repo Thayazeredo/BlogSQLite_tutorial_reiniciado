@@ -1,6 +1,7 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const sqlite3 = require("sqlite3");
+const session = require("express-session");
 
 const PORT = 8000; // Porta do servidor HTTP da aplicação
 
@@ -14,6 +15,15 @@ db.serialize(() => {
     "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT) "
   );
 });
+
+// Configuração para uso de sessão (cookies)com   Express
+app.use(
+  session({
+    secret: "qualquersenha",
+    resave: true,
+    saveUnitialized: true,
+  })
+);
 
 // Aqui sera acrescentado uma rota "/static", para a pasta __dirname + "/static"
 // O app.use é usado para acrescentar rotas novas para o Express gerenciar e pode usar
@@ -44,7 +54,7 @@ app.get("/", (req, res) => {
   console.log("GET /index");
   //res.send(index);
   // res.redirect("/cadastro"); // Redireciona para a ROTA cadastro
-  res.render("pages/cadastro", { titulo: "Título da página" });
+  // res.render("pages/cadastro", { titulo: "Título da página" });
 
   config = { titulo: "Blog", rodape: "" };
   res.render("pages/index", config);
@@ -121,7 +131,23 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
   console.log("POST /login");
-  res.send("login");
+  const { username, password } = req.body;
+
+  // Consultar o usuario no banco de dados
+  // const query = "SELECT * FROM users WHERE username = ? AND password = ?";
+  db.get(query, [username, password], (err, row) => {
+    if (err) throw err;
+
+    // Se usuario valido -> registra a sessão e redireciona para o dashboard
+    if (row) {
+      req.session.loggedin = true;
+      req.session.username = username;
+      res.redirect("/dashboard");
+    } // Se não, envia mensagem de erro (Usuario invalido)
+    else {
+      res.send("Usario invalido.");
+    }
+  });
 });
 
 app.get("/dashboard", (req, res) => {
