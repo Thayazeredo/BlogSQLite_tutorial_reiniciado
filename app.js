@@ -34,6 +34,8 @@ const sobre = 'Voce esta na pagina "sobre"<br><a href="/">sobre</a>';
 const Login = 'Voce esta na pagina "Login"<br><a href="/">Login</a>';
 const Cadastro = 'Voce esta na pagina "Cadastro"<br><a href="/">Cadastro</a>';
 
+let config = { titulo: "", rodape: "" };
+
 /* Método express.get necessita de dois parametros
 Na ARROW FUNCTION, o primeiro são os dados do servidor (REQUISITION - `req`)
 o segundo, são os dados que serão enviados ao cliente (RESULT - `res`)*/
@@ -43,46 +45,31 @@ app.get("/", (req, res) => {
   //res.send(index);
   // res.redirect("/cadastro"); // Redireciona para a ROTA cadastro
   res.render("pages/cadastro", { titulo: "Título da página" });
+
+  config = { titulo: "Blog", rodape: "" };
+  res.render("pages/index", config);
 });
 
 app.get("/usuarios", (req, res) => {
   const query = "SELECT * FROM users";
   db.all(query, (err, row) => {
     console.log(`GET /usuarios ${JSON.stringify(row)}`);
-    res.send("pages/usuarios");
+    res.send("pages/usuarios", config);
   });
 });
 
 app.get("/cadastro", (req, res) => {
   console.log("GET /cadastro");
-  res.render("pages/cadastro");
+  res.render("pages/cadastro", {
+    titulo: "Titulo da pagina",
+    config,
+  });
 });
 
 app.post("/cadastro", (req, res) => {
   !req.body
     ? console.log(JSON.stringify(req.body))
     : console.log(`Body vazio: ${req.body}`);
-
-  app.get("/sobre", (req, res) => {
-    console.log("GET /sobre");
-    res.render("pages/sobre");
-  });
-
-  app.get("/login", (req, res) => {
-    console.log("GET /login");
-    // Rota raiz  do meu servidor
-    res.render("page/login");
-  });
-
-  app.post("/login", (req, res) => {
-    console.log("POST /login");
-    res.render("page/login");
-  });
-
-  app.get("/dashboard", (req, res) => {
-    console.log("GET/ dashboard");
-    res.render("page/dashboard");
-  });
 
   const { username, password, email, celular, cpf, rg } = req.body;
   // Colocar aqui as validações e inclusão no banco de dados do cadastro do usuario
@@ -101,7 +88,7 @@ app.post("/cadastro", (req, res) => {
       // 3. Se usuario não existe no banco cadastrar
       const insertQuery =
         "INSERT INTO users (username, password, email, celular, cpf, rg) VALUES (?,?,?,?,?,?)";
-      db.ruin(
+      db.run(
         insertQuery,
         [username, password, email, celular, cpf, rg],
         (err) => {
@@ -117,6 +104,33 @@ app.post("/cadastro", (req, res) => {
     `Bem vindo usuario: ${req.body.username}, seu email é ${req.body.email}`
   );
 });
+
+app.get("/sobre", (req, res) => {
+  console.log("GET /sobre");
+  res.render("pages/sobre", {
+    titulo: "Titulo da pagina",
+  });
+});
+app.get("/login", (req, res) => {
+  console.log("GET /login");
+  // Rota raiz  do meu servidor
+  res.render("pages/login", {
+    titulo: "Titulo da pagina",
+  });
+});
+
+app.post("/login", (req, res) => {
+  console.log("POST /login");
+  res.send("login");
+});
+
+app.get("/dashboard", (req, res) => {
+  console.log("GET/ dashboard");
+  res.render("pages/dashboard", {
+    titulo: "Titulo da pagina",
+  });
+});
+
 //app.listen() deve ser o último comando da aplicação (app.js)
 app.listen(PORT, () => {
   console.log(`Servidor sendo executado na porta ${PORT}!`);

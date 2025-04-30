@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
   <%- include("../partials/head"); %>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Atividade formulário</title>
 
-    <!-- Link CSS externo -->
-    <link
-      rel="stylesheet"
-      href="../static/styles/styles.css"
-      class="stylesheet"
-    />
+  <body>
+    <%- include("../partials/menu") %>
 
-    <!-- <script src="/static/scripts/scripts.js" defer></script> -->
-  </head>
+    <section class="container">
+      <div class="image_container">
+        <h1>Sobre nosso site</h1>
+        <p>
+          Compartilhe suas aventuras e <br />
+          descubra novos lugares ao redor do mundo!
+        </p>
+      </div>
+
+      <div style="font-size: 20px"><%- include("../partials/usertable") %></div>
+    </section>
+
+    <%- include("../partials/footer") %>
+  </body>
 </html>
