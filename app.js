@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
   // res.render("pages/cadastro", { titulo: "Título da página" });
 
   config = { titulo: "Blog", rodape: "" };
-  res.render("pages/index", config);
+  res.render("pages/index", { ...config, req: req });
 });
 
 app.get("/usuarios", (req, res) => {
@@ -117,16 +117,13 @@ app.post("/cadastro", (req, res) => {
 
 app.get("/sobre", (req, res) => {
   console.log("GET /sobre");
-  res.render("pages/sobre", {
-    titulo: "Titulo da pagina",
-  });
+  res.render("pages/sobre", { ...config, req: req });
 });
+
 app.get("/login", (req, res) => {
   console.log("GET /login");
   // Rota raiz  do meu servidor
-  res.render("pages/login", {
-    titulo: "Titulo da pagina",
-  });
+  res.render("pages/login", { ...config, req: req });
 });
 
 app.post("/login", (req, res) => {
@@ -152,12 +149,28 @@ app.post("/login", (req, res) => {
 
 app.get("/dashboard", (req, res) => {
   console.log("GET/ dashboard");
-  res.render("pages/dashboard", {
-    titulo: "Titulo da pagina",
-  });
+  res.render("pages/dashboard", { ...config, req: req });
 });
 
 //app.listen() deve ser o último comando da aplicação (app.js)
 app.listen(PORT, () => {
   console.log(`Servidor sendo executado na porta ${PORT}!`);
 });
+
+app.use("*", (req, res) => {
+  // Envia uma resposta de erro 404
+  res.status(404).render("pages/404", { ...config, req: req });
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/cadastro");
+  });
+});
+
+if (req.session.loggedin) {
+  db.all("SELECT * FROM users", [], (err, row) => {
+    if (err) throw err;
+    res.render("pages/dashboard", { titulo: "DASHBOARD", dados: row, req:req}
+  });
+}
