@@ -137,7 +137,7 @@ app.post("/login", (req, res) => {
   // const query = "SELECT * FROM users WHERE username = ? AND password = ?";
   db.get(query, [username, password], (err, row) => {
     if (err) throw err;
-
+    //teste
     // Se usuario valido -> registra a sessão e redireciona para o dashboard
     if (row) {
       req.session.loggedin = true;
